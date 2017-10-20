@@ -23,7 +23,7 @@
     <ClCompile Include="pqexam1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="pqtest.cpp">
+    <ClCompile Include="pqueue1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
