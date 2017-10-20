@@ -32,14 +32,40 @@ PriorityQueue::~PriorityQueue()
 
 void PriorityQueue::operator=(const PriorityQueue & source)
 {
-	//Node *temp;
+
+	if (this == &source)
+	{
+		return;
+	}
+
+	if (source.head_ptr == NULL)
+	{
+		return;
+	}
+
+	// Determine which item has the highest priority.
+	// If multiple items have the same priority, then the first item in is returned.
+
+	delete[] head_ptr; // Clears memory for use.
+	many_nodes = 0; // Queue is now empty so many_nodes is set to 0.
+
+	head_ptr = source.head_ptr;
+
+	Node *temp;
+	temp = head_ptr;
+
+	Item info;
+	Item priority;
+
 	while (source.head_ptr != NULL)
 	{
-		head_ptr = source.head_ptr->link;
+		info = head_ptr->data;
+		priority = head_ptr->priority;
+		head_ptr = head_ptr->link; // Points head_ptr in the next item in the queue (either the item with the next highest priority or the next item inserted).
+		insert(info, priority); // returns value to function call.
 	}
 
 	many_nodes = source.many_nodes;
-
 }
 
 void PriorityQueue::insert(const Item & entry, unsigned int priority)
@@ -87,10 +113,10 @@ Item PriorityQueue::get_front()
 	Item info;
 
 	temp = head_ptr; // head_ptr should be pointing to the first item in the queue (either the item with the highest priority or the first entered into queue.
-						  // Assign this to temp2 for manipulation.
+					 // Assign this to temp2 for manipulation.
 	info = temp->data;
 	head_ptr = head_ptr->link; // Points head_ptr in the next item in the queue (either the item with the next highest priority or the next item inserted).
 	--many_nodes;
-	delete temp;
+	delete temp; // Frees the old memory so that it can be used again.
 	return info; // returns value to function call.
 }
