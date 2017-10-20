@@ -83,12 +83,14 @@ Item PriorityQueue::get_front()
 
 	// Determine which item has the highest priority.
 	// If multiple items have the same priority, then the first item in is returned.
+	Node *temp;
 	Item info;
 
-	info = head_ptr->data; // head_ptr should be pointing to the first item in the queue (either the item with the highest priority or the first entered into queue.
+	temp = head_ptr; // head_ptr should be pointing to the first item in the queue (either the item with the highest priority or the first entered into queue.
 						  // Assign this to temp2 for manipulation.
-	delete head_ptr->data;
+	info = temp->data;
 	head_ptr = head_ptr->link; // Points head_ptr in the next item in the queue (either the item with the next highest priority or the next item inserted).
 	--many_nodes;
+	delete temp;
 	return info; // returns value to function call.
 }
