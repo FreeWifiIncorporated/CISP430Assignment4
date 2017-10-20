@@ -33,39 +33,30 @@ PriorityQueue::~PriorityQueue()
 void PriorityQueue::operator=(const PriorityQueue & source)
 {
 
-	if (this == &source)
+	if (this == &source) // Checks if the two queue are already the same.
 	{
 		return;
 	}
-
-	if (source.head_ptr == NULL)
-	{
-		return;
-	}
-
-	// Determine which item has the highest priority.
-	// If multiple items have the same priority, then the first item in is returned.
 
 	delete[] head_ptr; // Clears memory for use.
 	many_nodes = 0; // Queue is now empty so many_nodes is set to 0.
 
-	head_ptr = source.head_ptr;
+	// Determine which item has the highest priority.
+	// If multiple items have the same priority, then the first item in is returned.
 
-	Node *temp;
-	temp = head_ptr;
+	Node *temp = source.head_ptr;
 
-	Item info;
-	Item priority;
-
-	while (source.head_ptr != NULL)
+	while (many_nodes != source.many_nodes)
 	{
-		info = head_ptr->data;
-		priority = head_ptr->priority;
-		head_ptr = head_ptr->link; // Points head_ptr in the next item in the queue (either the item with the next highest priority or the next item inserted).
-		insert(info, priority); // returns value to function call.
+		head_ptr->data = temp->data;
+		//head_ptr->link = new Node;
+		head_ptr = head_ptr->link;
+		temp = temp->link;
+		++many_nodes;
 	}
 
-	many_nodes = source.many_nodes;
+	//many_nodes = source.many_nodes;
+	//delete[] temp;
 }
 
 void PriorityQueue::insert(const Item & entry, unsigned int priority)
