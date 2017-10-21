@@ -26,5 +26,8 @@
     <ClCompile Include="pqtest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="pqueue1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
