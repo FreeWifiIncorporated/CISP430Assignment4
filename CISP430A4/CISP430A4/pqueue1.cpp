@@ -113,6 +113,8 @@ void PriorityQueue::operator=(const PriorityQueue & source)
 			x++;
 		}
 	}
+
+	many_nodes = source.many_nodes;
 }
 
 void PriorityQueue::insert(const Item & entry, unsigned int priority)
