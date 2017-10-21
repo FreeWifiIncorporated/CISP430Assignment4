@@ -23,24 +23,44 @@ PriorityQueue::PriorityQueue()
 PriorityQueue::PriorityQueue(const PriorityQueue & source)
 {
 	// If source is an empty queue, then...
-	head_ptr = source.head_ptr; // 
-	many_nodes = source.many_nodes;
+	many_nodes = source.many_nodes;         // copy node count
 
-	Node *temp;
-	temp = source.head_ptr;
+	Node * node1 = NULL;                    // declare node pointer
+	Node * precursor = NULL;                // declare precursor for new list 
+	Node * copycursor = NULL;               // declare cursor for copy list
 
-	while (head_ptr != NULL)
+	copycursor = source.head_ptr;           // set copy cursor to source head
+
+	int x = 0;
+	while (x < many_nodes)               // start a loop for num of nodes
 	{
-		head_ptr->data = temp->data;
-		head_ptr->priority = temp->priority;
-		temp = temp->link;
-		head_ptr = head_ptr->link;
+		node1 = new Node;               // point node1 to a new allocated node
+
+		node1->data = copycursor->data;         // copy over data to that node
+		node1->priority = copycursor->priority;
+
+		if (copycursor == source.head_ptr)      // if we're at the head
+			head_ptr = node1;               // set new head to copy head
+
+		if (precursor != NULL)               // if this isn't the first iteration
+			precursor->link = node1;            // link the last node to this new node
+
+		precursor = node1;              // precursor is now on this node
+		copycursor = copycursor->link;          // copy cursor is now advanced
+
+		x++;
 	}
-	many_nodes = source.many_nodes;
 }
 
 PriorityQueue::~PriorityQueue()
 {
+
+	if (many_nodes == 0)
+	{
+		head_ptr = NULL;
+		return;
+	}
+
 	while (head_ptr != NULL)
 	{
 		Node *temp = head_ptr;
@@ -71,19 +91,34 @@ void PriorityQueue::operator=(const PriorityQueue & source)
 
 	if (source.head_ptr != NULL)
 	{
-		Node *temp;
-		temp = source.head_ptr;
-		head_ptr = NULL;
+		many_nodes = source.many_nodes;         // copy node count
 
-		while (temp->link != NULL)
+		Node * node1 = NULL;                    // declare node pointer
+		Node * precursor = NULL;                // declare precursor for new list 
+		Node * copycursor = NULL;               // declare cursor for copy list
+
+		copycursor = source.head_ptr;           // set copy cursor to source head
+
+		int x = 0;
+		while (x < many_nodes)               // start a loop for num of nodes
 		{
-			head_ptr->data = temp->data;
-			head_ptr->priority = temp->priority;
-			temp = temp->link;
-			head_ptr = head_ptr->link;
+			node1 = new Node;               // point node1 to a new allocated node
+
+			node1->data = copycursor->data;         // copy over data to that node
+			node1->priority = copycursor->priority;
+
+			if (copycursor == source.head_ptr)      // if we're at the head
+				head_ptr = node1;               // set new head to copy head
+
+			if (precursor != NULL)               // if this isn't the first iteration
+				precursor->link = node1;            // link the last node to this new node
+
+			precursor = node1;              // precursor is now on this node
+			copycursor = copycursor->link;          // copy cursor is now advanced
+
+			x++;
 		}
 	}
-
 	many_nodes = source.many_nodes;
 }
 

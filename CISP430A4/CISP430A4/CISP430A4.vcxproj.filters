@@ -20,13 +20,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="pqexam1.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="pqtest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="pqueue1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pqexam1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
