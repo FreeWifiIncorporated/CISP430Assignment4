@@ -1,4 +1,7 @@
 // Christos Papadopoulos
+// pqueue1.cpp
+// PriorityQueue implementation file
+//  Create a class to implement a queue data structure using a linked list.
 
 #include <stdlib.h>
 #include <cassert>
@@ -44,26 +47,26 @@ PriorityQueue::PriorityQueue(const PriorityQueue & source)
 		precursor = node1;              // precursor is now on this node
 		copycursor = copycursor->link;          // copy cursor is now advanced
 
-		x++;
+		x++; // increase node count by one
 	}
 }
 
 PriorityQueue::~PriorityQueue()
 {
 
-	if (many_nodes == 0)
+	if (many_nodes == 0) // check if list is empty
 	{
-		head_ptr = NULL;
+		head_ptr = NULL; // can just set the head_ptr to NULL and return
 		return;
 	}
 
-	while (head_ptr != NULL)
+	while (head_ptr != NULL) // delete each node through the head_ptr
 	{
-		Node *temp = head_ptr;
-		head_ptr = head_ptr->link;
-		delete temp;
+		Node *temp = head_ptr; // create a temporary ptr
+		head_ptr = head_ptr->link; // set head_ptr to point to the next node
+		delete temp; // delete the previous head through temp
 	}
-	many_nodes = 0;
+	many_nodes = 0; // set many_nodes to zero to show there are no nodes
 }
 
 void PriorityQueue::operator=(const PriorityQueue & source)
@@ -74,18 +77,18 @@ void PriorityQueue::operator=(const PriorityQueue & source)
 		return;
 	}
 
-	if ((source.head_ptr == NULL) && (head_ptr != NULL))
+	if ((source.head_ptr == NULL) && (head_ptr != NULL)) // check if source has an empty list and that head_ptr isn't NULL
 	{
-		Node *temp;
-		while (head_ptr != NULL)
+		Node *temp; // create a temporary ptr
+		while (head_ptr != NULL) // iterate through the linked list and delete all the nodes to make it empty
 		{
-			temp = head_ptr;
-			head_ptr = head_ptr->link;
-			delete temp;
+			temp = head_ptr; // point temp to where head_ptr is pointing to
+			head_ptr = head_ptr->link; // assign head_ptr to point to the next node
+			delete temp; // delete the previous head through temp
 		}
 	}
 
-	if (source.head_ptr != NULL)
+	if (source.head_ptr != NULL) // check that source does not have an empty list
 	{
 		many_nodes = source.many_nodes;         // copy node count
 
@@ -112,11 +115,11 @@ void PriorityQueue::operator=(const PriorityQueue & source)
 			precursor = node1;              // precursor is now on this node
 			copycursor = copycursor->link;          // copy cursor is now advanced
 
-			x++;
+			x++; // increase node count by one
 		}
 	}
 
-	many_nodes = source.many_nodes;
+	many_nodes = source.many_nodes; // ensure the node count is the same as source
 }
 
 void PriorityQueue::insert(const Item & entry, unsigned int priority)
