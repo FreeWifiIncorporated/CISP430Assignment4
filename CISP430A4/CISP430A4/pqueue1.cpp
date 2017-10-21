@@ -15,8 +15,28 @@ PriorityQueue::PriorityQueue()
 
 PriorityQueue::PriorityQueue(const PriorityQueue & source)
 {
-	head_ptr = source.head_ptr;
-	many_nodes = source.many_nodes;
+	if (source.head_ptr == NULL) // Checks if the source is an empty queue.
+	{
+		// If source is an empty queue, then...
+		head_ptr = source.head_ptr; // 
+		many_nodes = source.many_nodes;
+	}
+	else
+	{
+		Node *temp;
+		temp = source.head_ptr;
+		head_ptr = source.head_ptr;
+
+		while (temp->link != NULL)
+		{
+			head_ptr->data = temp->data;
+			head_ptr->link = new Node;
+			head_ptr = head_ptr->link;
+			temp = temp->link;
+		}
+
+		many_nodes = source.many_nodes;
+	}
 }
 
 PriorityQueue::~PriorityQueue()
@@ -38,25 +58,32 @@ void PriorityQueue::operator=(const PriorityQueue & source)
 		return;
 	}
 
-	delete[] head_ptr; // Clears memory for use.
-	many_nodes = 0; // Queue is now empty so many_nodes is set to 0.
-
-	// Determine which item has the highest priority.
-	// If multiple items have the same priority, then the first item in is returned.
-
-	Node *temp = source.head_ptr;
-
-	while (many_nodes != source.many_nodes)
+	if ((source.head_ptr == NULL) && (head_ptr != NULL))
 	{
-		head_ptr->data = temp->data;
-		//head_ptr->link = new Node;
-		head_ptr = head_ptr->link;
-		temp = temp->link;
-		++many_nodes;
+		Node *temp;
+		while (head_ptr != NULL)
+		{
+			temp = head_ptr;
+			head_ptr = head_ptr->link;
+			delete temp;
+		}
+	}
+	
+	if (source.head_ptr != NULL)
+	{
+		Node *temp;
+		temp = source.head_ptr;
+		head_ptr = NULL;
+
+		while (temp->link != NULL)
+		{
+			head_ptr->data = temp->data;
+			head_ptr->priority = temp->priority;
+			temp = temp->link;
+		}
 	}
 
-	//many_nodes = source.many_nodes;
-	//delete[] temp;
+	many_nodes = source.many_nodes;
 }
 
 void PriorityQueue::insert(const Item & entry, unsigned int priority)
