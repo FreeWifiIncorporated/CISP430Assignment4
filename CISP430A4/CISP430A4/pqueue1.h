@@ -1,3 +1,9 @@
+/*
+	Nathan Yarrison
+	CISP 430
+	Assignment 4
+	10/20/2017
+*/
 // FILE: pqueue1.h
 // CLASS PROVIDED: PriorityQueue (a priority queue of items)
 //

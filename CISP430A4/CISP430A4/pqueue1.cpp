@@ -1,6 +1,12 @@
+/*
+	Nathan Yarrison
+	CISP 430
+	Assignment 4
+	10/20/2017
+*/
+// Implementation file for the pqueue1 header file.
 #include <stdlib.h>
 #include <cassert>
-#include <iostream>
 #include "pqueue1.h"
 
 using namespace std;
@@ -10,58 +16,64 @@ typedef int Item;
 PriorityQueue::PriorityQueue()
 {
 	// Initialize an empty queue.
-	head_ptr = NULL;
-	many_nodes = 0;
+	head_ptr = NULL; // Point head_ptr at NULL.
+	many_nodes = 0; // Set amount of nodes to 0.
 }
 
 PriorityQueue::PriorityQueue(const PriorityQueue & source)
 {
-	// If source is an empty queue, then...
-	many_nodes = source.many_nodes;         // copy node count
+	many_nodes = source.many_nodes;         // Set the amount of nodes to the amount of nodes in the source queue.
 
-	Node * node1 = NULL;                    // declare node pointer
-	Node * precursor = NULL;                // declare precursor for new list 
-	Node * copycursor = NULL;               // declare cursor for copy list
+	Node *temp, *precursor, *copycursor; // Declares a temporary node, a precursor, and a copycursor.
+	temp = NULL;                    // temp will hold a temporar copy of the current node.
+	precursor = NULL;                // Will point to the previous node in the queue.
+	copycursor = NULL;               // will point to the current node to be copied.
 
-	copycursor = source.head_ptr;           // set copy cursor to source head
+	copycursor = source.head_ptr;           // point copycursor to the start of the queue.
 
-	int x = 0;
-	while (x < many_nodes)               // start a loop for num of nodes
+	int numberOfCopiedNodes = 0;	// This is a variable that will hold how many nodes have been copied so far.
+	while (numberOfCopiedNodes < many_nodes)               // While the number of copied nodes doesn't equal the total number of nodes, copy over nodes.
 	{
-		node1 = new Node;               // point node1 to a new allocated node
+		temp = new Node;               // Create a new node in temp.
 
-		node1->data = copycursor->data;         // copy over data to that node
-		node1->priority = copycursor->priority;
+		temp->data = copycursor->data;         // Copy data of copycursor to temp.
+		temp->priority = copycursor->priority; // Copy priority of copycursor to temp.
 
-		if (copycursor == source.head_ptr)      // if we're at the head
-			head_ptr = node1;               // set new head to copy head
+		if (copycursor == source.head_ptr)      // if the copycursor is equivalent to the source head_ptr
+		{
+			head_ptr = temp;               // Set head_ptr of queue to the value of temp.
+		}
 
-		if (precursor != NULL)               // if this isn't the first iteration
-			precursor->link = node1;            // link the last node to this new node
+		if (precursor != NULL)               // If precursor is not NULL
+		{
+			precursor->link = temp;            // Link node at precursor to the current node.
+		}
 
-		precursor = node1;              // precursor is now on this node
-		copycursor = copycursor->link;          // copy cursor is now advanced
+		precursor = temp;              // precursor now points to the current node.
+		copycursor = copycursor->link;          // Set copycursor to the next node in the queue.
 
-		x++;
+		numberOfCopiedNodes++; // Keep count of the number of copied nodes.
 	}
 }
 
 PriorityQueue::~PriorityQueue()
 {
 
-	if (many_nodes == 0)
+	if (many_nodes == 0) // Check if the number of nodes is 0.
 	{
+		// If it is, set head_ptr to NULL because the queue is empty.
 		head_ptr = NULL;
 		return;
 	}
 
-	while (head_ptr != NULL)
+	// If the number of nodes is not 0, then the queue is not empty and needs to be emptied.
+	while (head_ptr != NULL) // So, while the head_ptr does not point to NULL...
 	{
-		Node *temp = head_ptr;
-		head_ptr = head_ptr->link;
-		delete temp;
+		Node *temp = head_ptr; // Hold the value of head_ptr in a temp node.
+		head_ptr = head_ptr->link; // Point head_ptr at the next node.
+		delete temp; // Delete the original node, freeing the memory.
 	}
-	many_nodes = 0;
+	many_nodes = 0; // After while loop is exited, the queue should have been completely deleted so the number of nodes is now 0.
 }
 
 void PriorityQueue::operator=(const PriorityQueue & source)
@@ -69,52 +81,62 @@ void PriorityQueue::operator=(const PriorityQueue & source)
 
 	if (this == &source) // Checks if the two queue are already the same.
 	{
+		// If they are, don't do anything.
 		return;
 	}
 
+	// If they are not, check if the source is empty and if the current head_ptr doesn't point to NULL.
 	if ((source.head_ptr == NULL) && (head_ptr != NULL))
 	{
-		Node *temp;
+		// If the source queue is empty, the current queue needs to be emptied.
+		Node *temp; // Node to temporarily hold the value of head_ptr.
 		while (head_ptr != NULL)
 		{
-			temp = head_ptr;
-			head_ptr = head_ptr->link;
-			delete temp;
+			// While head_ptr doesn't point to NULL...
+			temp = head_ptr; // Hold value of head_ptr in temp.
+			head_ptr = head_ptr->link; // Point head_ptr at the next node.
+			delete temp; // Delete the original node to free up the memory.
 		}
 	}
 	
+	// If the source queue is not empty...
 	if (source.head_ptr != NULL)
 	{
-		many_nodes = source.many_nodes;         // copy node count
+		many_nodes = source.many_nodes;         // Set the amount of nodes to the amount of nodes in the source queue.
 
-		Node * node1 = NULL;                    // declare node pointer
-		Node * precursor = NULL;                // declare precursor for new list 
-		Node * copycursor = NULL;               // declare cursor for copy list
+		Node *temp, *precursor, *copycursor; // Declares a temporary node, a precursor, and a copycursor.
+		temp = NULL;                    // temp will hold a temporar copy of the current node.
+		precursor = NULL;                // Will point to the previous node in the queue.
+		copycursor = NULL;               // will point to the current node to be copied.
 
-		copycursor = source.head_ptr;           // set copy cursor to source head
+		copycursor = source.head_ptr;           // point copycursor to the start of the queue.
 
-		int x = 0;
-		while (x < many_nodes)               // start a loop for num of nodes
+		int numberOfCopiedNodes = 0;	// This is a variable that will hold how many nodes have been copied so far.
+		while (numberOfCopiedNodes < many_nodes)               // While the number of copied nodes doesn't equal the total number of nodes, copy over nodes.
 		{
-			node1 = new Node;               // point node1 to a new allocated node
+			temp = new Node;               // Create a new node in temp.
 
-			node1->data = copycursor->data;         // copy over data to that node
-			node1->priority = copycursor->priority;
+			temp->data = copycursor->data;         // Copy data of copycursor to temp.
+			temp->priority = copycursor->priority; // Copy priority of copycursor to temp.
 
-			if (copycursor == source.head_ptr)      // if we're at the head
-				head_ptr = node1;               // set new head to copy head
+			if (copycursor == source.head_ptr)      // if the copycursor is equivalent to the source head_ptr
+			{
+				head_ptr = temp;               // Set head_ptr of queue to the value of temp.
+			}
 
-			if (precursor != NULL)               // if this isn't the first iteration
-				precursor->link = node1;            // link the last node to this new node
+			if (precursor != NULL)               // If precursor is not NULL
+			{
+				precursor->link = temp;            // Link node at precursor to the current node.
+			}
 
-			precursor = node1;              // precursor is now on this node
-			copycursor = copycursor->link;          // copy cursor is now advanced
+			precursor = temp;              // precursor now points to the current node.
+			copycursor = copycursor->link;          // Set copycursor to the next node in the queue.
 
-			x++;
+			numberOfCopiedNodes++; // Keep count of the number of copied nodes.
 		}
 	}
 
-	many_nodes = source.many_nodes;
+	many_nodes = source.many_nodes; // Set the amount of nodes in the queue to the amount of nodes in the source.
 }
 
 void PriorityQueue::insert(const Item & entry, unsigned int priority)
@@ -137,16 +159,17 @@ void PriorityQueue::insert(const Item & entry, unsigned int priority)
 	}
 	else // Else, there are items in the queue and the new entry must be inserted at the appropriate priority location.
 	{
-		q = head_ptr;
+		q = head_ptr; // points q to the head_ptr for use.
 		while (q->link != NULL && q->link->priority >= priority)
 		{
-			q = q->link;
+			// While q->link does not = NULL and the priority of q is greater than or equal to the given priority...
+			q = q->link; // Point q at the next node.
 		}
-		temp->link = q->link;
-		q->link = temp;
+		temp->link = q->link; // Links temp to the next node in the q.
+		q->link = temp; // Link q to the current node.
 	}
 
-	++many_nodes;
+	++many_nodes; // Keep track of how many nodes are in the queue.
 }
 
 Item PriorityQueue::get_front()
@@ -156,16 +179,14 @@ Item PriorityQueue::get_front()
 	// Assert that the size is greater than 0.
 	assert(size() > 0);
 
-	// Determine which item has the highest priority.
-	// If multiple items have the same priority, then the first item in is returned.
-	Node *temp;
-	Item info;
+	Node *temp; // Creates a node to temporarily hold the values of the nodes.
+	Item info; // Creates an Item called info that will hold the value of data that will be returned to the call, which is the item at the front of the queue.
 
 	temp = head_ptr; // head_ptr should be pointing to the first item in the queue (either the item with the highest priority or the first entered into queue.
-					// Assign this to temp2 for manipulation.
-	info = temp->data;
+					// Assign this to temp for manipulation.
+	info = temp->data; // Store the value at temp->data in info because this is the item that will be returned to call.
 	head_ptr = head_ptr->link; // Points head_ptr in the next item in the queue (either the item with the next highest priority or the next item inserted).
-	--many_nodes;
+	--many_nodes; // Subtract one from the nuber of nodes to keep track of how many nodes are in the queue.
 	delete temp; // Frees the old memory so that it can be used again.
 	return info; // returns value to function call.
 }
