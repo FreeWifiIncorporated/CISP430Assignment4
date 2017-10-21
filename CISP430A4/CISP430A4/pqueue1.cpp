@@ -9,34 +9,28 @@ typedef int Item;
 
 PriorityQueue::PriorityQueue()
 {
+	// Initialize an empty queue.
 	head_ptr = NULL;
 	many_nodes = 0;
 }
 
 PriorityQueue::PriorityQueue(const PriorityQueue & source)
 {
-	if (source.head_ptr == NULL) // Checks if the source is an empty queue.
-	{
-		// If source is an empty queue, then...
-		head_ptr = source.head_ptr; // 
-		many_nodes = source.many_nodes;
-	}
-	else
-	{
-		Node *temp;
-		temp = source.head_ptr;
-		head_ptr = source.head_ptr;
+	// If source is an empty queue, then...
+	head_ptr = source.head_ptr; // 
+	many_nodes = source.many_nodes;
 
-		while (temp->link != NULL)
-		{
-			head_ptr->data = temp->data;
-			head_ptr->link = new Node;
-			head_ptr = head_ptr->link;
-			temp = temp->link;
-		}
+	Node *temp;
+	temp = source.head_ptr;
 
-		many_nodes = source.many_nodes;
+	while (head_ptr != NULL)
+	{
+		head_ptr->data = temp->data;
+		head_ptr->priority = temp->priority;
+		temp = temp->link;
+		head_ptr = head_ptr->link;
 	}
+	many_nodes = source.many_nodes;
 }
 
 PriorityQueue::~PriorityQueue()
@@ -80,6 +74,7 @@ void PriorityQueue::operator=(const PriorityQueue & source)
 			head_ptr->data = temp->data;
 			head_ptr->priority = temp->priority;
 			temp = temp->link;
+			head_ptr = head_ptr->link;
 		}
 	}
 
